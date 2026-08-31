@@ -279,9 +279,57 @@ function connectManualWalletAddress() {
 function syncUserProfileWalletState() {
     if (!state.walletAddress) return;
     const cleanShort = shortenAddress(state.walletAddress).replace('...', '');
-    state.userProfile.referralCode = `MHR${cleanShort.toUpperCase()}`;
-    state.userProfile.referralLink = `https://metafastest.io/ref/${cleanShort}`;
+    state.userProfile.referralCode = `MFHRC-${cleanShort.toUpperCase()}`;
+    const origin = window.location.origin || 'https://metafastest-dapp.onrender.com';
+    state.userProfile.referralLink = `${origin}/?ref=${state.walletAddress}`;
     evaluateRank();
+    fetchLiveOnChainBalances();
+}
+
+async function fetchLiveOnChainBalances() {
+    if (!state.walletAddress || !state.connected) return;
+    try {
+        if (typeof window.ethereum !== 'undefined') {
+            const cleanAddr = state.walletAddress.toLowerCase().replace('0x', '').padStart(64, '0');
+            const mfhrcCallData = '0x70a08231' + cleanAddr;
+            
+            // Query MFHRC BEP-20 Balance via connected provider
+            try {
+                const mfhrcHex = await window.ethereum.request({
+                    method: 'eth_call',
+                    params: [{ to: state.contractAddress, data: mfhrcCallData }, 'latest']
+                });
+                if (mfhrcHex && mfhrcHex !== '0x') {
+                    const rawBig = BigInt(mfhrcHex);
+                    const div = 10n ** 18n;
+                    const whole = rawBig / div;
+                    const rem = rawBig % div;
+                    const liveBalance = Number(whole) + Number(rem) / 1e18;
+                    if (!isNaN(liveBalance)) {
+                        state.mhrBalance = liveBalance;
+                    }
+                }
+            } catch (e) {
+                console.warn('MFHRC live balance query note:', e.message);
+            }
+
+            // Query BNB Gas Balance
+            try {
+                const bnbHex = await window.ethereum.request({
+                    method: 'eth_getBalance',
+                    params: [state.walletAddress, 'latest']
+                });
+                if (bnbHex && bnbHex !== '0x') {
+                    state.bnbBalance = Number(BigInt(bnbHex)) / 1e18;
+                }
+            } catch (e) {}
+
+            savePersistentState();
+            updateAllViews();
+        }
+    } catch (err) {
+        console.warn('Live balance sync:', err);
+    }
 }
 
 function handleLogout() {
@@ -418,12 +466,10 @@ async function connectWeb3Wallet() {
         state.userProfile.sponsor = sponsorInput.value.trim();
     }
 
-    if (typeof window.ethereum !== 'undefined' && !window.location.search.includes('mock=true')) {
+    if (typeof window.ethereum !== 'undefined') {
         try {
-            showToast('Connecting Web3 Wallet...', 'info');
-            const requestPromise = window.ethereum.request({ method: 'eth_requestAccounts' });
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000));
-            const accounts = await Promise.race([requestPromise, timeoutPromise]);
+            showToast('Connecting Web3 Wallet to BNB Smart Chain...', 'info');
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             
             if (accounts && accounts.length > 0) {
                 state.walletAddress = accounts[0];
@@ -695,6 +741,41 @@ function confirmPackagePurchase() {
         totalEarned: 0,
         status: 'Active'
     });
+
+    // Unilevel Referral Commission Execution
+    if (state.userProfile.sponsor && state.userProfile.sponsor !== '0x0000...0000 (Direct Platform)') {
+        const l1Bonus = selectedPkg.price * 0.10; // 10% Level 1 Direct
+        state.bonuses.direct += l1Bonus;
+        state.bonuses.unilevel += l1Bonus;
+        state.referrals.teamVolume += selectedPkg.price;
+        
+        // Add to unilevel list if not already present
+        const existingRef = state.referrals.directList.find(d => d.wallet.toLowerCase() === state.walletAddress.toLowerCase());
+        if (!existingRef) {
+            state.referrals.directCount += 1;
+            state.referrals.teamCount += 1;
+            state.referrals.directList.unshift({
+                name: state.userProfile.fullName || `Rider ${shortenAddress(state.walletAddress)}`,
+                wallet: state.walletAddress,
+                package: selectedPkg.name,
+                volume: selectedPkg.price,
+                bonus: l1Bonus,
+                status: 'Active',
+                joined: new Date().toISOString().split('T')[0]
+            });
+        } else {
+            existingRef.volume += selectedPkg.price;
+            existingRef.bonus += l1Bonus;
+            existingRef.package = selectedPkg.name;
+        }
+
+        // Update Tier 1 in Unilevel breakdown
+        if (state.referrals.unilevelTiers && state.referrals.unilevelTiers[0]) {
+            state.referrals.unilevelTiers[0].count = state.referrals.directCount;
+            state.referrals.unilevelTiers[0].volume += selectedPkg.price;
+            state.referrals.unilevelTiers[0].earned += l1Bonus;
+        }
+    }
 
     evaluateRank();
     logTransaction('Package', `Subscribed to ${selectedPkg.name}`, `-${selectedPkg.price.toLocaleString()} USDT`, 'Completed');
