@@ -257,7 +257,8 @@ function connectManualWalletAddress() {
     let address = input ? input.value.trim() : '';
 
     if (!address) {
-        address = '0x71C8395B24d1aB55a29796BE4837b7E09a1FB923';
+        showToast('⚠️ Please enter your EVM wallet address (0x...)', 'warning');
+        return;
     } else if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
         showToast('⚠️ Please enter a valid 42-character EVM wallet address (0x...)', 'warning');
         return;
@@ -445,15 +446,17 @@ async function connectWeb3Wallet() {
         }
     }
 
-    // Default Web3 wallet connection session
+    // If no Web3 provider is active or user rejected, prompt clean manual login
     if (!state.walletAddress || state.walletAddress === '0x0000000000000000000000000000000000000000') {
-        state.walletAddress = '0x71C8395B24d1aB55a29796BE4837b7E09a1FB923';
+        showToast('💡 MetaMask not detected or connection cancelled. Please enter your wallet address to login.', 'info');
+        showLoginView();
+        return;
     }
     state.connected = true;
     syncUserProfileWalletState();
     savePersistentState();
     showAppDashboard();
-    showToast(`🚀 Web3 Wallet Connected: ${shortenAddress(state.walletAddress)}`, 'success');
+    showToast(`🚀 Connected: ${shortenAddress(state.walletAddress)}`, 'success');
 }
 
 // ==========================================================
