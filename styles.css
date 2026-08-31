@@ -2483,19 +2483,68 @@ body {
     color: var(--text-muted);
 }
 
-/* Responsive Media Queries */
+/* ==========================================================
+   COMPREHENSIVE MOBILE & TABLET RESPONSIVE SYSTEM
+   ========================================================== */
+
+/* Universal word wrap & address overflow protection */
+code, .copy-box, .wallet-address, .address-display, pre, .break-all {
+    word-break: break-all !important;
+    overflow-wrap: anywhere !important;
+    max-width: 100% !important;
+}
+
+.copy-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.copy-box span {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    font-size: 11px;
+    line-height: 1.4;
+    min-width: 0;
+    flex: 1 1 auto;
+    color: #fff;
+}
+
+.copy-box .copy-btn {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-light);
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.copy-box .copy-btn:hover {
+    background: var(--gold-primary);
+    color: #000;
+}
+
+/* Tablet Breakpoint (max-width: 1100px) */
 @media (max-width: 1100px) {
     .landing-hero {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
     }
     .landing-stats-ribbon {
         grid-template-columns: repeat(3, 1fr);
     }
     .ecosystem-features-grid,
-    .nft-showcase-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .nft-showcase-grid,
     .packages-preview-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -2507,36 +2556,349 @@ body {
     }
 }
 
+/* Mobile Breakpoint (max-width: 768px) */
 @media (max-width: 768px) {
-    .landing-nav-links {
+    /* 1. App Container & Mobile Navigation */
+    .app-container {
+        flex-direction: column;
+        width: 100%;
+        max-width: 100vw;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-gold);
+        padding: 10px 14px;
+        flex-direction: column;
+        gap: 8px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(5, 8, 20, 0.96);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+    .brand-header {
+        padding-bottom: 6px;
+        margin-bottom: 4px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .brand-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .brand-title {
+        font-size: 14px;
+    }
+
+    .brand-title span {
+        display: block !important;
+        font-size: 10px;
+    }
+
+    .nav-menu {
+        flex-direction: row;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+        gap: 6px;
+        -webkit-overflow-scrolling: touch;
+        padding: 4px 0 6px 0;
+    }
+
+    .nav-menu::-webkit-scrollbar {
+        height: 3px;
+    }
+
+    .nav-menu::-webkit-scrollbar-thumb {
+        background: var(--gold-primary);
+        border-radius: 3px;
+    }
+
+    .nav-item {
+        padding: 6px 10px;
+        font-size: 12px;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: var(--radius-sm);
+    }
+
+    .nav-item span {
+        display: inline-block !important;
+    }
+
+    .nav-item.active {
+        border-left: none;
+        border-bottom: 2px solid var(--gold-primary);
+    }
+
+    .sidebar-banner {
         display: none;
     }
-    .hero-title {
-        font-size: 32px;
+
+    /* 2. Main Wrapper & Header */
+    .main-wrapper {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
     }
-    .landing-stats-ribbon {
-        grid-template-columns: 1fr;
-        gap: 16px;
+
+    .top-header {
+        padding: 10px 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        position: relative;
     }
-    .landing-stat-box:not(:last-child)::after {
-        display: none;
+
+    .user-welcome {
+        flex-wrap: wrap;
+        gap: 6px;
     }
+
+    .welcome-title {
+        font-size: 13px;
+    }
+
+    .top-stats-ribbon {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .top-stat-item {
+        padding: 6px 8px;
+        min-width: 0;
+    }
+
+    .top-stat-val {
+        font-size: 11px;
+    }
+
+    .header-right {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .network-badge {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    /* 3. Content Area & Grids */
+    .content-area {
+        padding: 12px 10px;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .dashboard-grid,
+    .stats-grid,
+    .packages-grid,
+    .nft-grid,
+    .wallet-overview-grid,
+    .profile-grid,
     .ecosystem-features-grid,
     .nft-showcase-grid,
     .packages-preview-grid,
     .how-it-works-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        width: 100%;
     }
+
     .unilevel-tier-cards-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
     }
+
+    .card {
+        padding: 14px 12px;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .card-header {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .card-title {
+        font-size: 14px;
+    }
+
+    .dash-balance-hero {
+        padding: 16px 12px;
+    }
+
+    .dash-main-amount {
+        font-size: 24px;
+        word-break: break-all;
+    }
+
+    .dash-hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .dash-hero-actions .btn-gold,
+    .dash-hero-actions .btn-outline-gold {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* 4. Tokenomics & Address Cards */
+    [style*="grid-template-columns: repeat(3, 1fr)"] {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    [style*="justify-content: space-between"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+
+    [style*="justify-content: space-between"] > div:last-child {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+    }
+
+    [style*="justify-content: space-between"] > div:last-child button,
+    [style*="justify-content: space-between"] > div:last-child a {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* 5. Responsive Tables */
+    .table-responsive {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 8px;
+        display: block;
+        border-radius: var(--radius-sm);
+    }
+
+    .data-table {
+        min-width: 540px;
+        width: 100%;
+        font-size: 11px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 8px 10px;
+        white-space: nowrap;
+    }
+
+    /* 6. Modals on Mobile */
+    .modal-box {
+        width: 92% !important;
+        max-width: 440px !important;
+        padding: 18px 14px !important;
+        max-height: 88vh !important;
+        overflow-y: auto !important;
+        box-sizing: border-box;
+    }
+
+    /* 7. Public Landing Page */
+    .landing-nav {
+        padding: 10px 14px;
+    }
+
+    .landing-nav-links {
+        display: none;
+    }
+
+    .landing-brand-title {
+        font-size: 15px;
+    }
+
+    .hero-title {
+        font-size: 26px;
+        line-height: 1.25;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+    }
+
+    .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .hero-cta-group .btn-gold,
+    .hero-cta-group .btn-outline-gold {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .landing-stats-ribbon {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .landing-stat-box:not(:last-child)::after {
+        display: none;
+    }
+
     .landing-footer-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
+
     .footer-bottom-row {
         flex-direction: column;
         gap: 10px;
         text-align: center;
+    }
+
+    .toast {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        font-size: 12px;
+        padding: 10px 14px;
     }
 }
 
