@@ -1,0 +1,11 @@
+{
+  "name": "MetaFastest Horse Riders Club",
+  "website": "https://metafastest.io",
+  "description": "MetaFastest Horse Riders Club (MFHRC) is the official utility and governance token powering the MetaFastest decentralized ecosystem on BNB Smart Chain.",
+  "explorer": "https://bscscan.com/token/0xbC6AC29404f5E68ed9d4e340E286aAb265Ea6e0c",
+  "type": "BEP20",
+  "symbol": "MFHRC",
+  "decimals": 18,
+  "status": "active",
+  "id": "0xbC6AC29404f5E68ed9d4e340E286aAb265Ea6e0c"
+}

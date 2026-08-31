@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metafastest Riders Club - Web3 Decentralized Platform</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ==========================================================
+         PUBLIC LANDING PAGE (HOMEPAGE BEFORE WALLET CONNECT)
+         ========================================================== -->
+    <div id="landingView" class="landing-page-wrapper">
+        <div class="landing-ambient-glow top-left"></div>
+        <div class="landing-ambient-glow mid-right"></div>
+        <div class="landing-ambient-glow bottom-center"></div>
+
+        <!-- 1. Public Sticky Navigation -->
+        <header class="landing-nav">
+            <div class="landing-container landing-nav-content">
+                <a href="#hero" class="landing-brand">
+                    <img src="assets/metafastest-logo.jpg?v=2" alt="Metafastest Logo" class="landing-brand-logo">
+                    <div class="landing-brand-text">
+                        <span class="landing-brand-title">METAFASTEST</span>
+                        <span class="landing-brand-sub">HORSE RIDERS CLUB</span>
+                    </div>
+                </a>
+
+                <nav class="landing-nav-links">
+                    <a href="#features">Ecosystem</a>
+                    <a href="#horses">NFT Horses</a>
+                    <a href="#packages">Staking Tiers</a>
+                    <a href="#rewards">Unilevel</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#tokenomics">Tokenomics</a>
+                    <a href="#faq">FAQ</a>
+                </nav>
+
+                <div class="landing-nav-actions">
+                    <div id="landing-connected-bar" style="display: none; align-items: center; gap: 8px; margin-right: 8px;">
+                        <span class="badge-pill badge-gold" style="font-size: 11px;"><i class="fa-solid fa-circle-check"></i> <span id="landing-connected-addr">Connected</span></span>
+                    </div>
+                    <button id="nav-landing-connect-btn" onclick="scrollToConnectOrConnect()" class="btn-gold" style="padding: 10px 20px; font-weight: 700; font-size: 13px;">
+                        <i class="fa-solid fa-wallet"></i> Connect Wallet
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. Hero Section -->
+        <section id="hero" class="landing-hero landing-container">
+            <div class="hero-content">
+                <div class="hero-pill-badge">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>NEXT-GEN WEB3 GAMING & STAKING ECOSYSTEM</span>
+                </div>
+
+                <h1 class="hero-title">
+                    The World's #1 <span class="gold-gradient-text">5D Cyber Horse Racing</span> & Staking Metaverse
+                </h1>
+
+                <p class="hero-description">
+                    Enter the high-stakes cyber stables. Stake packages for daily rewards up to <strong>1.5% daily</strong> on BNB Smart Chain, collect legendary NFT thoroughbreds, and unlock <strong>5-tier unilevel commissions</strong>.
+                </p>
+
+                <div class="hero-highlights-list">
+                    <div class="hero-highlight-item">
+                        <div class="hero-highlight-icon"><i class="fa-solid fa-check"></i></div>
+                        <span><strong>Up to 1.5% Daily Compound Staking Yield</strong> with 180-day automated payouts</span>
+                    </div>
+                    <div class="hero-highlight-item">
+                        <div class="hero-highlight-icon"><i class="fa-solid fa-check"></i></div>
+                        <span><strong>5D Cyber Stallions</strong> generating passive daily MHR rewards + racing jackpots</span>
+                    </div>
+                    <div class="hero-highlight-item">
+                        <div class="hero-highlight-icon"><i class="fa-solid fa-check"></i></div>
+                        <span><strong>19% Multi-Tier Affiliate Rewards</strong> across 5 deep levels on BNB Smart Chain</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta-group">
+                    <button id="hero-connect-btn" onclick="scrollToConnectOrConnect()" class="btn-gold btn-large" style="padding: 14px 28px; font-size: 15px;">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Connect Wallet & Enter Portal
+                    </button>
+                    <a href="#packages" class="btn-outline-gold" style="padding: 14px 24px; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-gem"></i> Explore Staking Tiers
+                    </a>
+                </div>
+            </div>
+
+            <!-- VIP Connect & Referral Gateway Card -->
+            <div class="landing-gateway-card" id="gatewayCard">
+                <div class="gateway-card-header">
+                    <img src="assets/mfhrc-coin-front.jpg?v=3" alt="MFHRC Medallion" class="gateway-medallion-logo">
+                    <h2 class="gateway-card-title">Riders Club Portal</h2>
+                    <p class="gateway-card-sub">Connect your EVM Web3 Wallet to unlock full member features</p>
+                </div>
+
+                <!-- Sponsor Invitation Banner (If visited via ?ref=... or ?sponsor=...) -->
+                <div id="loginRefBanner" class="login-referral-banner" style="display: none;">
+                    <i class="fa-solid fa-gift"></i>
+                    <span id="loginRefText">Sponsor Invitation detected</span>
+                </div>
+
+                <div class="gateway-form-body">
+                    <!-- Web3 Injected / WalletConnect Button -->
+                    <button id="btnConnectWeb3" onclick="connectWeb3Wallet()" class="btn-gold gateway-connect-btn">
+                        <i class="fa-solid fa-wallet"></i> Connect Web3 Wallet
+                    </button>
+
+                    <div class="gateway-divider">
+                        <span>— OR ENTER WALLET ADDRESS MANUALLY —</span>
+                    </div>
+
+                    <div class="gateway-input-group">
+                        <label for="manualWalletInput"><i class="fa-solid fa-key"></i> EVM Wallet Address</label>
+                        <input type="text" id="manualWalletInput" class="form-control" placeholder="0x... (e.g. 0x71C8...)" style="text-align: center; font-family: monospace; font-size: 13px; background: rgba(0,0,0,0.6); color: #fff;">
+                    </div>
+
+                    <div class="gateway-input-group">
+                        <label for="loginSponsorInput"><i class="fa-solid fa-user-plus"></i> Sponsor Referral Code (Optional)</label>
+                        <input type="text" id="loginSponsorInput" class="form-control" placeholder="e.g. MHR92A1 or 0x..." style="text-align: center; font-family: monospace; font-size: 13px; background: rgba(0,0,0,0.6); color: var(--gold-light);">
+                    </div>
+
+                    <button onclick="connectManualWalletAddress()" class="btn-outline-gold gateway-manual-btn">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Enter Dashboard with Address
+                    </button>
+
+                    <p id="connectionStatus" class="gateway-status-hint">
+                        🔒 Non-custodial Web3 access &bull; BNB Smart Chain Network
+                    </p>
+                </div>
+
+                <div class="gateway-card-footer">
+                    <span><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i> BSC Verified</span>
+                    <span>&bull;</span>
+                    <span>5D Virtual Derby Stables</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Live Ecosystem Stats Ribbon -->
+        <div class="landing-container">
+            <div class="landing-stats-ribbon">
+                <div class="landing-stat-box">
+                    <span class="stat-box-label"><i class="fa-solid fa-coins"></i> MFHRC Price</span>
+                    <span class="stat-box-value gold">$0.185 USDT</span>
+                    <span class="stat-box-sub">▲ +4.2% (24h)</span>
+                </div>
+                <div class="landing-stat-box">
+                    <span class="stat-box-label"><i class="fa-solid fa-vault"></i> Total Value Staked</span>
+                    <span class="stat-box-value">$14,250,000+</span>
+                    <span class="stat-box-sub">Verified TVL</span>
+                </div>
+                <div class="landing-stat-box">
+                    <span class="stat-box-label"><i class="fa-solid fa-flag-checkered"></i> 5D Races Run</span>
+                    <span class="stat-box-value">62,400+</span>
+                    <span class="stat-box-sub">Real-Time Derbies</span>
+                </div>
+                <div class="landing-stat-box">
+                    <span class="stat-box-label"><i class="fa-solid fa-users"></i> Global Riders</span>
+                    <span class="stat-box-value">18,920+</span>
+                    <span class="stat-box-sub">Active Members</span>
+                </div>
+                <div class="landing-stat-box">
+                    <span class="stat-box-label"><i class="fa-solid fa-chart-line"></i> Daily Staking ROI</span>
+                    <span class="stat-box-value gold">0.8% - 1.5%</span>
+                    <span class="stat-box-sub">180-Day Cycles</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Core Features / Ecosystem Section -->
+        <section id="features" class="landing-section landing-container">
+            <div class="landing-section-header">
+                <span class="section-pill-tag">Core Ecosystem</span>
+                <h2 class="section-main-title">Pioneering The Future of Web3 Metaverse Gaming</h2>
+                <p class="section-main-desc">Metafastest merges photoreal 5D virtual horse racing with automated decentralized finance, transparent staking pools, and real-time gaming prize distribution.</p>
+            </div>
+
+            <div class="ecosystem-features-grid">
+                <div class="eco-card">
+                    <div class="eco-icon-wrap"><i class="fa-solid fa-vr-cardboard"></i></div>
+                    <h3 class="eco-card-title">5D Virtual Horse Derbies</h3>
+                    <p class="eco-card-desc">Experience photoreal cyber horse racing with dynamic physics, real-time live-streamed tournaments, speed attributes, and massive winner prize pots.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="eco-icon-wrap"><i class="fa-solid fa-coins"></i></div>
+                    <h3 class="eco-card-title">High-Yield Staking Tiers</h3>
+                    <p class="eco-card-desc">Choose from 6 curated packages offering 0.8% to 1.5% daily yield over 180-day cycles with daily claims in USDT and MFHRC governance tokens.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="eco-icon-wrap"><i class="fa-solid fa-horse-head"></i></div>
+                    <h3 class="eco-card-title">NFT Stables & Breeding</h3>
+                    <p class="eco-card-desc">Own 4 tiers of cyber stallions (Common to Legendary) that generate passive daily MHR token yield and compete in championship tournaments.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="eco-icon-wrap"><i class="fa-solid fa-sitemap"></i></div>
+                    <h3 class="eco-card-title">19% Unilevel Affiliate Program</h3>
+                    <p class="eco-card-desc">Earn across 5 deep levels of your referral network: 10% direct sponsor bonus, 4% Level 2, 3% Level 3, 1% Level 4, and 1% Level 5 with instant payouts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. NFT Horses Showcase -->
+        <section id="horses" class="landing-section landing-container">
+            <div class="landing-section-header">
+                <span class="section-pill-tag">NFT Thoroughbreds</span>
+                <h2 class="section-main-title">Collect, Breed & Race Champion Cyber Stallions</h2>
+                <p class="section-main-desc">Each NFT Horse is a unique digital asset on BNB Smart Chain with distinct speed, stamina, win rates, and daily MHR mining yield.</p>
+            </div>
+
+            <div class="nft-showcase-grid">
+                <!-- Cyber Stallion -->
+                <div class="nft-horse-card">
+                    <div class="nft-card-img-wrap">
+                        <img src="assets/nft-cyber-stallion.jpg?v=20260831_5d" alt="Cyber Stallion" class="nft-card-img">
+                        <span class="nft-tier-pill tier-common">Tier 1 &bull; Common</span>
+                    </div>
+                    <div class="nft-card-body">
+                        <div class="nft-card-header-row">
+                            <span class="nft-horse-name">Cyber Stallion</span>
+                            <span class="nft-horse-price">$100 USDT</span>
+                        </div>
+                        <div class="nft-stats-list">
+                            <div class="nft-stat-row">
+                                <span>Speed (72 km/h)</span>
+                                <strong>72%</strong>
+                            </div>
+                            <div class="nft-stat-bar-container"><div class="nft-stat-bar-fill" style="width: 72%;"></div></div>
+                            <div class="nft-stat-row">
+                                <span>Daily MHR Yield</span>
+                                <strong style="color: var(--gold-primary);">+10 MHR / day</strong>
+                            </div>
+                            <div class="nft-stat-row">
+                                <span>Win Rate</span>
+                                <strong>64%</strong>
+                            </div>
+                        </div>
+                        <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold nft-card-action-btn">
+                            <i class="fa-solid fa-lock"></i> Connect Wallet to Own
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Solar Stallion -->
+                <div class="nft-horse-card">
+                    <div class="nft-card-img-wrap">
+                        <img src="assets/nft-solar-stallion.jpg?v=20260831_5d" alt="Solar Stallion" class="nft-card-img">
+                        <span class="nft-tier-pill tier-rare">Tier 2 &bull; Rare</span>
+                    </div>
+                    <div class="nft-card-body">
+                        <div class="nft-card-header-row">
+                            <span class="nft-horse-name">Solar Stallion</span>
+                            <span class="nft-horse-price">$200 USDT</span>
+                        </div>
+                        <div class="nft-stats-list">
+                            <div class="nft-stat-row">
+                                <span>Speed (85 km/h)</span>
+                                <strong>85%</strong>
+                            </div>
+                            <div class="nft-stat-bar-container"><div class="nft-stat-bar-fill" style="width: 85%;"></div></div>
+                            <div class="nft-stat-row">
+                                <span>Daily MHR Yield</span>
+                                <strong style="color: var(--gold-primary);">+20 MHR / day</strong>
+                            </div>
+                            <div class="nft-stat-row">
+                                <span>Win Rate</span>
+                                <strong>76%</strong>
+                            </div>
+                        </div>
+                        <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold nft-card-action-btn">
+                            <i class="fa-solid fa-lock"></i> Connect Wallet to Own
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Valkyrie Storm -->
+                <div class="nft-horse-card">
+                    <div class="nft-card-img-wrap">
+                        <img src="assets/nft-valkyrie-storm.jpg?v=20260831_5d" alt="Valkyrie Storm" class="nft-card-img">
+                        <span class="nft-tier-pill tier-epic">Tier 3 &bull; Epic</span>
+                    </div>
+                    <div class="nft-card-body">
+                        <div class="nft-card-header-row">
+                            <span class="nft-horse-name">Valkyrie Storm</span>
+                            <span class="nft-horse-price">$380 USDT</span>
+                        </div>
+                        <div class="nft-stats-list">
+                            <div class="nft-stat-row">
+                                <span>Speed (94 km/h)</span>
+                                <strong>94%</strong>
+                            </div>
+                            <div class="nft-stat-bar-container"><div class="nft-stat-bar-fill" style="width: 94%;"></div></div>
+                            <div class="nft-stat-row">
+                                <span>Daily MHR Yield</span>
+                                <strong style="color: var(--gold-primary);">+40 MHR / day</strong>
+                            </div>
+                            <div class="nft-stat-row">
+                                <span>Win Rate</span>
+                                <strong>88%</strong>
+                            </div>
+                        </div>
+                        <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold nft-card-action-btn">
+                            <i class="fa-solid fa-lock"></i> Connect Wallet to Own
+                        </button>
+                    </div>
+                </div>
+
+                <!-- God of Speed -->
+                <div class="nft-horse-card">
+                    <div class="nft-card-img-wrap">
+                        <img src="assets/nft-god-of-speed.jpg?v=20260831_5d" alt="God of Speed" class="nft-card-img">
+                        <span class="nft-tier-pill tier-legendary">Tier 4 &bull; Legendary</span>
+                    </div>
+                    <div class="nft-card-body">
+                        <div class="nft-card-header-row">
+                            <span class="nft-horse-name">God of Speed</span>
+                            <span class="nft-horse-price">$600 USDT</span>
+                        </div>
+                        <div class="nft-stats-list">
+                            <div class="nft-stat-row">
+                                <span>Speed (110 km/h)</span>
+                                <strong>99%</strong>
+                            </div>
+                            <div class="nft-stat-bar-container"><div class="nft-stat-bar-fill" style="width: 99%;"></div></div>
+                            <div class="nft-stat-row">
+                                <span>Daily MHR Yield</span>
+                                <strong style="color: var(--gold-primary);">+100 MHR / day</strong>
+                            </div>
+                            <div class="nft-stat-row">
+                                <span>Win Rate</span>
+                                <strong>96%</strong>
+                            </div>
+                        </div>
+                        <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold nft-card-action-btn">
+                            <i class="fa-solid fa-lock"></i> Connect Wallet to Own
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Staking Packages Preview Matrix -->
+        <section id="packages" class="landing-section landing-container">
+            <div class="landing-section-header">
+                <span class="section-pill-tag">Staking Tiers</span>
+                <h2 class="section-main-title">Transparent & Automated Staking Packages</h2>
+                <p class="section-main-desc">Lock in fixed 180-day staking terms with daily compounding ROI and instant multi-token claim options.</p>
+            </div>
+
+            <div class="packages-preview-grid">
+                <!-- Starter -->
+                <div class="package-preview-card">
+                    <div class="pkg-card-top">
+                        <span class="pkg-icon-sphere">🌱</span>
+                        <span class="pkg-name-text">Starter Package</span>
+                    </div>
+                    <div class="pkg-price-tag">$100 <span>USDT</span></div>
+                    <ul class="pkg-perks-list">
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> <strong>0.80% Daily Yield</strong> ($0.80/day)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> 180 Days Total Term (144% Total ROI)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> 10% Direct Referral Commission</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Basic Racing Stables Access</li>
+                    </ul>
+                    <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold" style="width:100%; font-weight:700;">Select Starter</button>
+                </div>
+
+                <!-- Explorer -->
+                <div class="package-preview-card">
+                    <div class="pkg-card-top">
+                        <span class="pkg-icon-sphere">🧭</span>
+                        <span class="pkg-name-text">Explorer Package</span>
+                    </div>
+                    <div class="pkg-price-tag">$500 <span>USDT</span></div>
+                    <ul class="pkg-perks-list">
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> <strong>0.85% Daily Yield</strong> ($4.25/day)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> 180 Days Total Term (153% Total ROI)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Level 1-2 Unilevel Commissions</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Silver Rider Rank Badge</li>
+                    </ul>
+                    <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold" style="width:100%; font-weight:700;">Select Explorer</button>
+                </div>
+
+                <!-- Premium (Featured) -->
+                <div class="package-preview-card featured">
+                    <div class="pkg-featured-badge">MOST POPULAR</div>
+                    <div class="pkg-card-top">
+                        <span class="pkg-icon-sphere">🐎</span>
+                        <span class="pkg-name-text">Premium Package</span>
+                    </div>
+                    <div class="pkg-price-tag">$1,000 <span>USDT</span></div>
+                    <ul class="pkg-perks-list">
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> <strong>0.90% Daily Yield</strong> ($9.00/day)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> 180 Days Total Term (162% Total ROI)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Level 1-3 Unilevel Commissions</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> VIP Derby Tournament Entry Pass</li>
+                    </ul>
+                    <button onclick="scrollToConnectOrConnect()" class="btn-gold" style="width:100%; font-weight:700;">Select Premium</button>
+                </div>
+
+                <!-- Riders -->
+                <div class="package-preview-card">
+                    <div class="pkg-card-top">
+                        <span class="pkg-icon-sphere">⚡</span>
+                        <span class="pkg-name-text">Riders Package</span>
+                    </div>
+                    <div class="pkg-price-tag">$5,000 <span>USDT</span></div>
+                    <ul class="pkg-perks-list">
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> <strong>1.10% Daily Yield</strong> ($55.00/day)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> 180 Days Total Term (198% Total ROI)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Level 1-4 Unilevel Commissions</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Knight Rank Status + Gold Stables</li>
+                    </ul>
+                    <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold" style="width:100%; font-weight:700;">Select Riders</button>
+                </div>
+
+                <!-- VIP Riders (Featured) -->
+                <div class="package-preview-card featured">
+                    <div class="pkg-featured-badge">VIP ELITE</div>
+                    <div class="pkg-card-top">
+                        <span class="pkg-icon-sphere">👑</span>
+                        <span class="pkg-name-text">VIP Riders Package</span>
+                    </div>
+                    <div class="pkg-price-tag">$10,000 <span>USDT</span></div>
+                    <ul class="pkg-perks-list">
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> <strong>1.20% Daily Yield</strong> ($120.00/day)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> 180 Days Total Term (216% Total ROI)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Full 5-Level Unilevel Commissions</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Grand Master Rank & Revenue Share</li>
+                    </ul>
+                    <button onclick="scrollToConnectOrConnect()" class="btn-gold" style="width:100%; font-weight:700;">Select VIP Riders</button>
+                </div>
+
+                <!-- Legendary Founder -->
+                <div class="package-preview-card">
+                    <div class="pkg-card-top">
+                        <span class="pkg-icon-sphere">🏆</span>
+                        <span class="pkg-name-text">Legendary Founder</span>
+                    </div>
+                    <div class="pkg-price-tag">$25,000 <span>USDT</span></div>
+                    <ul class="pkg-perks-list">
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> <strong>1.50% Daily Yield</strong> ($375.00/day)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> 180 Days Total Term (270% Total ROI)</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Maximum 5-Level Unilevel + VIP Pool</li>
+                        <li class="pkg-perk-item"><i class="fa-solid fa-circle-check"></i> Metafastest Legend Lifetime Status</li>
+                    </ul>
+                    <button onclick="scrollToConnectOrConnect()" class="btn-outline-gold" style="width:100%; font-weight:700;">Select Founder</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Multi-Tier Unilevel Rewards -->
+        <section id="rewards" class="landing-section landing-container">
+            <div class="landing-section-header">
+                <span class="section-pill-tag">Affiliate Network</span>
+                <h2 class="section-main-title">19% Multi-Tier Unilevel Rewards Engine</h2>
+                <p class="section-main-desc">Earn lucrative commissions from your network's package purchases and NFT breeding activities with real-time automated tracking.</p>
+            </div>
+
+            <div class="unilevel-tier-cards-grid">
+                <div class="unilevel-tier-card">
+                    <div class="tier-badge-number">L1</div>
+                    <div class="tier-rate-pct" style="color: var(--gold-primary);">10%</div>
+                    <div class="tier-title-label">Direct Sponsor</div>
+                    <div class="tier-desc-text">Directly referred members</div>
+                </div>
+                <div class="unilevel-tier-card">
+                    <div class="tier-badge-number">L2</div>
+                    <div class="tier-rate-pct" style="color: #60a5fa;">4%</div>
+                    <div class="tier-title-label">Level 2 Network</div>
+                    <div class="tier-desc-text">2nd generation referrals</div>
+                </div>
+                <div class="unilevel-tier-card">
+                    <div class="tier-badge-number">L3</div>
+                    <div class="tier-rate-pct" style="color: #a78bfa;">3%</div>
+                    <div class="tier-title-label">Level 3 Network</div>
+                    <div class="tier-desc-text">3rd generation referrals</div>
+                </div>
+                <div class="unilevel-tier-card">
+                    <div class="tier-badge-number">L4</div>
+                    <div class="tier-rate-pct" style="color: #34d399;">1%</div>
+                    <div class="tier-title-label">Level 4 Network</div>
+                    <div class="tier-desc-text">4th generation referrals</div>
+                </div>
+                <div class="unilevel-tier-card">
+                    <div class="tier-badge-number">L5</div>
+                    <div class="tier-rate-pct" style="color: #f472b6;">1%</div>
+                    <div class="tier-title-label">Level 5 Network</div>
+                    <div class="tier-desc-text">5th generation referrals</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. How It Works (3 Steps) -->
+        <section id="how-it-works" class="landing-section landing-container">
+            <div class="landing-section-header">
+                <span class="section-pill-tag">Getting Started</span>
+                <h2 class="section-main-title">How To Join In 3 Simple Steps</h2>
+                <p class="section-main-desc">Getting started with Metafastest Riders Club takes less than 60 seconds.</p>
+            </div>
+
+            <div class="how-it-works-grid">
+                <div class="how-step-card">
+                    <div class="how-step-num">1</div>
+                    <div class="how-icon-box"><i class="fa-solid fa-wallet"></i></div>
+                    <h3 class="how-step-title">Connect EVM Wallet</h3>
+                    <p class="how-step-desc">Connect with MetaMask, Trust Wallet, or enter your BSC address to create or verify your member account instantly.</p>
+                </div>
+                <div class="how-step-card">
+                    <div class="how-step-num">2</div>
+                    <div class="how-icon-box"><i class="fa-solid fa-box-open"></i></div>
+                    <h3 class="how-step-title">Select Staking or NFT Horse</h3>
+                    <p class="how-step-desc">Pick an active staking package starting from $100 or mint a cyber thoroughbred horse for daily MHR token yield.</p>
+                </div>
+                <div class="how-step-card">
+                    <div class="how-step-num">3</div>
+                    <div class="how-icon-box"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <h3 class="how-step-title">Earn & Claim Daily Rewards</h3>
+                    <p class="how-step-desc">Collect real-time staking returns, race in live tournaments, and claim your USDT/MHR earnings directly to your wallet.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Tokenomics & Smart Contract -->
+        <section id="tokenomics" class="landing-section landing-container">
+            <div class="landing-section-header">
+                <span class="section-pill-tag">Tokenomics & Security</span>
+                <h2 class="section-main-title">MFHRC Official Token Ecosystem</h2>
+                <p class="section-main-desc">Built natively on BNB Smart Chain (BEP-20) for lightning-fast speeds and ultra-low gas fees.</p>
+            </div>
+
+            <div style="background: rgba(12, 21, 46, 0.7); border: 1px solid rgba(38, 70, 140, 0.4); border-radius: 20px; padding: 32px; max-width: 860px; margin: 0 auto;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 24px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <img src="assets/mfhrc-coin-front.jpg" alt="MFHRC Token" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--gold-primary);">
+                        <div>
+                            <h3 style="font-family: var(--font-heading); font-size: 20px; color: #fff;">Metafastest Horse Riders Club (MFHRC)</h3>
+                            <span style="color: var(--gold-primary); font-size: 13px; font-weight: 700;">BEP-20 &bull; BNB Smart Chain</span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 12px; color: var(--text-muted); display: block;">Official Price</span>
+                        <strong style="font-family: var(--font-heading); font-size: 24px; color: var(--gold-primary);">$0.185 USDT</strong>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 24px;">
+                    <div>
+                        <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Standard</span>
+                        <p style="font-weight: 700; color: #fff;">BEP-20 (BSC)</p>
+                    </div>
+                    <div>
+                        <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Max Supply</span>
+                        <p style="font-weight: 700; color: #fff;">1,000,000,000 MFHRC</p>
+                    </div>
+                    <div>
+                        <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Security Audit</span>
+                        <p style="font-weight: 700; color: var(--accent-green);"><i class="fa-solid fa-shield-check"></i> Passed & Verified</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
+                    <div style="padding: 14px 18px; background: rgba(0,0,0,0.5); border: 1px solid var(--gold-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <span style="font-size: 11px; color: var(--gold-light); display: block; text-transform: uppercase; letter-spacing: 0.5px;"><i class="fa-solid fa-shield-halved"></i> Live BEP-20 Smart Contract Address (BSC Mainnet)</span>
+                            <code style="font-size: 13px; color: #fff; word-break: break-all; font-weight: 700;">0xbC6AC29404f5E68ed9d4e340E286aAb265Ea6e0c</code>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-outline-gold" style="padding: 6px 12px; font-size: 12px;" onclick="copyText('0xbC6AC29404f5E68ed9d4e340E286aAb265Ea6e0c')"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <a href="https://bscscan.com/token/0xbC6AC29404f5E68ed9d4e340E286aAb265Ea6e0c" target="_blank" class="btn-gold" style="padding: 6px 12px; font-size: 12px; text-decoration: none;"><i class="fa-solid fa-arrow-up-right-from-square"></i> BscScan Explorer</a>
+                        </div>
+                    </div>
+
+                    <div style="padding: 12px 18px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <span style="font-size: 11px; color: var(--text-muted); display: block; text-transform: uppercase; letter-spacing: 0.5px;"><i class="fa-solid fa-crown" style="color: var(--gold-primary);"></i> Official Owner & 1B Token Treasury Wallet</span>
+                            <code style="font-size: 13px; color: #fff; word-break: break-all;">0xd537F93d056364CDE3De6692F48e853d14b0943c</code>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-outline-gold" style="padding: 6px 12px; font-size: 12px;" onclick="copyText('0xd537F93d056364CDE3De6692F48e853d14b0943c')"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <a href="https://bscscan.com/address/0xd537F93d056364CDE3De6692F48e853d14b0943c" target="_blank" class="btn-outline-gold" style="padding: 6px 12px; font-size: 12px; text-decoration: none;"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Wallet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. FAQ Accordion -->
+        <section id="faq" class="landing-section landing-container">
+            <div class="landing-section-header">
+                <span class="section-pill-tag">Frequently Asked Questions</span>
+                <h2 class="section-main-title">Everything You Need To Know</h2>
+                <p class="section-main-desc">Clear answers about wallet connection, staking yields, NFT horses, and affiliate commissions.</p>
+            </div>
+
+            <div class="faq-accordion-list">
+                <div class="faq-accordion-item active">
+                    <button class="faq-question-btn" onclick="toggleLandingFaq(this)">
+                        <span>How do I connect my wallet to access the dashboard?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer-panel">
+                        You can connect directly via MetaMask, Trust Wallet, or Binance Web3 Wallet by clicking "Connect Web3 Wallet". Alternatively, you can enter any valid 0x EVM wallet address manually to access the platform.
+                    </div>
+                </div>
+
+                <div class="faq-accordion-item">
+                    <button class="faq-question-btn" onclick="toggleLandingFaq(this)">
+                        <span>How are daily staking rewards calculated and paid?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer-panel">
+                        Staking packages generate daily yield ranging from 0.8% to 1.5% daily depending on the tier. Yields accumulate in real-time and can be claimed anytime in USDT or swapped for MFHRC tokens in the Wallet tab.
+                    </div>
+                </div>
+
+                <div class="faq-accordion-item">
+                    <button class="faq-question-btn" onclick="toggleLandingFaq(this)">
+                        <span>What is the difference between Packages and NFT Horses?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer-panel">
+                        Packages provide fixed 180-day staking returns with automated percentage yields. NFT Horses are tradable digital assets that generate continuous daily MHR token yield and qualify you for live 5D Metaverse racing derbies.
+                    </div>
+                </div>
+
+                <div class="faq-accordion-item">
+                    <button class="faq-question-btn" onclick="toggleLandingFaq(this)">
+                        <span>How does the 5-Tier Unilevel Referral Program work?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer-panel">
+                        When you share your referral link, you earn 10% on direct Level 1 referrals, 4% on Level 2, 3% on Level 3, 1% on Level 4, and 1% on Level 5. Commissions are credited instantly upon package purchase.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. Public Footer -->
+        <footer class="landing-footer">
+            <div class="landing-container">
+                <div class="landing-footer-grid">
+                    <div>
+                        <div class="landing-brand" style="margin-bottom: 12px;">
+                            <img src="assets/metafastest-logo.jpg?v=2" alt="Logo" class="landing-brand-logo">
+                            <div class="landing-brand-text">
+                                <span class="landing-brand-title">METAFASTEST</span>
+                                <span class="landing-brand-sub">HORSE RIDERS CLUB</span>
+                            </div>
+                        </div>
+                        <p class="footer-col-desc">
+                            The premier Web3 5D Cyber Horse Racing & Staking platform on BNB Smart Chain. Speed &bull; Power &bull; Unity &bull; Respect &bull; One Destination.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="footer-col-title">Ecosystem</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="#features">5D Virtual Derby</a></li>
+                            <li><a href="#horses">NFT Thoroughbreds</a></li>
+                            <li><a href="#packages">Staking Packages</a></li>
+                            <li><a href="#rewards">Unilevel Affiliate</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="footer-col-title">Resources</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="#tokenomics">Tokenomics</a></li>
+                            <li><a href="#how-it-works">Getting Started</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToConnectOrConnect()">Member Portal</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="footer-col-title">Community</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="https://t.me" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Global</a></li>
+                            <li><a href="https://twitter.com" target="_blank"><i class="fa-brands fa-x-twitter"></i> Twitter / X</a></li>
+                            <li><a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i> Discord Server</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom-row">
+                    <span>&copy; 2026 Metafastest Riders Club. All rights reserved.</span>
+                    <span>Powered by BNB Smart Chain BEP-20 Network</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- ==========================================================
+         INTERNAL MEMBERS DAPP PORTAL (GATED BY WALLET CONNECTION)
+         ========================================================== -->
+    <div class="app-container" id="dapp-portal-view" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand-header">
+                <img src="assets/metafastest-logo.jpg?v=2" alt="Metafastest Horse Riders Club Logo" class="brand-logo">
+                <div class="brand-title">
+                    METAFASTEST
+                    <span>HORSE RIDERS CLUB</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a class="nav-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nav-item" data-tab="profile">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <span>My Profile</span>
+                </a>
+                <a class="nav-item" data-tab="packages">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Packages</span>
+                </a>
+                <a class="nav-item" data-tab="nft-horses">
+                    <i class="fa-solid fa-horse-head"></i>
+                    <span>NFT Horses</span>
+                </a>
+                <a class="nav-item" data-tab="wallet">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Wallet & Claims</span>
+                </a>
+                <a class="nav-item" data-tab="bonuses">
+                    <i class="fa-solid fa-gift"></i>
+                    <span>Bonuses</span>
+                </a>
+                <a class="nav-item" data-tab="rankings">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Rankings</span>
+                </a>
+                <a class="nav-item" data-tab="referrals">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Referrals</span>
+                </a>
+                <a class="nav-item" data-tab="transactions">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Transactions</span>
+                </a>
+                <a class="nav-item" data-tab="admin">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Admin Panel</span>
+                </a>
+                <a class="nav-item" id="nav-logout" onclick="handleLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-banner">
+                <img src="assets/mfhrc-coin-front.jpg?v=3" alt="MFHRC Official Token Medallion">
+                <div class="banner-slogan">
+                    SPEED &bull; POWER<br>
+                    UNITY &bull; RESPECT<br>
+                    ONE DESTINATION
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <main class="main-wrapper">
+            <!-- Top Sticky Header -->
+            <header class="top-header">
+                <div class="user-welcome">
+                    <span class="welcome-title">Welcome back, <strong class="user-name">New Rider</strong></span>
+                    <span class="vip-badge" id="header-rank-badge">New Rider</span>
+                </div>
+
+                <div class="top-stats-ribbon">
+                    <div class="stat-chip">
+                        <div class="stat-chip-icon ahr">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <div class="stat-chip-info">
+                            <span>MFHRC Token Balance</span>
+                            <strong id="header-ahr-balance">0.00 MFHRC</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-chip">
+                        <div class="stat-chip-icon usdt">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-chip-info">
+                            <span>USDT Wallet Balance</span>
+                            <strong id="header-usdt-balance">$0.00 USDT</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="top-actions">
+                    <button class="btn-outline-gold" onclick="switchPortalView('landing')" style="padding: 6px 12px; font-size: 12px;" title="View Public Landing Page">
+                        <i class="fa-solid fa-globe"></i> Home
+                    </button>
+
+                    <button class="btn-outline-gold" onclick="openSwapModal()" title="Instant Token Swap">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i> Swap MFHRC
+                    </button>
+
+                    <button class="icon-btn" title="Notifications" onclick="showToast('No unread notifications.', 'info')">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+
+                    <button class="btn-gold" id="btn-connect-wallet">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span id="wallet-btn-text">Connect Wallet</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content Container -->
+            <div class="dashboard-content">
+                
+                <!-- ==========================================================
+                     VIEW 1: MAIN DASHBOARD VIEW
+                     ========================================================== -->
+                <section id="view-dashboard" class="tab-view active">
+                    <div class="dashboard-grid">
+                        
+                        <!-- COLUMN 1: LEFT -->
+                        <div class="grid-col-left">
+                            <!-- Member Profile Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-id-card"></i> Member Profile</span>
+                                    <button class="btn-outline-gold" style="padding: 4px 8px; font-size: 11px;" onclick="switchTab('profile')">Edit</button>
+                                </div>
+                                <div class="profile-card-header">
+                                    <img src="assets/metafastest-logo.jpg?v=2" alt="Profile" class="profile-avatar">
+                                </div>
+                                <div class="profile-info-list">
+                                    <div class="profile-info-item">
+                                        <label><i class="fa-solid fa-user"></i> Full Name</label>
+                                        <p id="dash-prof-fullname">Not Set</p>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <label><i class="fa-solid fa-cake-candles"></i> Birthday</label>
+                                        <p id="dash-prof-bday">Not Set</p>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <label><i class="fa-solid fa-envelope"></i> Email</label>
+                                        <p id="dash-prof-email">Not Set</p>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <label><i class="fa-solid fa-phone"></i> Contact No.</label>
+                                        <p id="dash-prof-phone">Not Set</p>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <label><i class="fa-solid fa-link"></i> Wallet Address</label>
+                                        <div class="copy-box">
+                                            <span id="profile-wallet-address">Not Connected</span>
+                                            <button class="copy-btn" onclick="copyText(state.walletAddress || '')"><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="profile-info-item">
+                                        <label><i class="fa-solid fa-share-nodes"></i> Referral Link</label>
+                                        <div class="copy-box">
+                                            <span id="dash-ref-link-display">Connect wallet to generate referral link</span>
+                                            <button class="copy-btn" onclick="copyText(state.userProfile.referralLink)"><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ranking Bonus Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-medal"></i> Ranking Bonus</span>
+                                    <button class="btn-outline-gold" style="padding: 4px 8px; font-size: 11px;" onclick="switchTab('rankings')">View Perks</button>
+                                </div>
+                                <div class="ranking-list" id="dash-ranking-list">
+                                    <div class="ranking-item active" id="rank-step-0">
+                                        <span class="ranking-icon">🔰</span>
+                                        <span class="ranking-name">New Rider (Active)</span>
+                                    </div>
+                                    <div class="ranking-item" id="rank-step-1">
+                                        <span class="ranking-icon">🥉</span>
+                                        <span class="ranking-name">Knight</span>
+                                    </div>
+                                    <div class="ranking-item" id="rank-step-2">
+                                        <span class="ranking-icon">🥈</span>
+                                        <span class="ranking-name">Earl</span>
+                                    </div>
+                                    <div class="ranking-item" id="rank-step-3">
+                                        <span class="ranking-icon">🥇</span>
+                                        <span class="ranking-name">Grand Master</span>
+                                    </div>
+                                    <div class="ranking-item" id="rank-step-4">
+                                        <span class="ranking-icon">💎</span>
+                                        <span class="ranking-name">Royal Rider</span>
+                                    </div>
+                                    <div class="ranking-item" id="rank-step-5">
+                                        <span class="ranking-icon">👑</span>
+                                        <span class="ranking-name">Metafastest Legend</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- COLUMN 2: CENTER -->
+                        <div class="grid-col-center">
+                            <!-- Entry Packages Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-shield-halved"></i> Entry Packages</span>
+                                    <button class="btn-outline-gold" onclick="switchTab('packages')">View All (6)</button>
+                                </div>
+
+                                <div class="package-item">
+                                    <div class="package-icon">🐎</div>
+                                    <div class="package-details">
+                                        <div class="package-name">PREMIUM PACKAGE</div>
+                                        <div class="package-price">1,000 USDT</div>
+                                        <div class="package-yield">EARN 0.9% PER DAY | Duration: 180 Days</div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill" style="width: 45%;"></div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-gold" onclick="openBuyModal('Premium Package', 1000)">Join Package</button>
+                                </div>
+
+                                <div class="package-item">
+                                    <div class="package-icon">⚡</div>
+                                    <div class="package-details">
+                                        <div class="package-name">RIDERS PACKAGE</div>
+                                        <div class="package-price">5,000 USDT</div>
+                                        <div class="package-yield">EARN 1.1% PER DAY | Duration: 180 Days</div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill" style="width: 35%;"></div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-gold" onclick="openBuyModal('Riders Package', 5000)">Join Package</button>
+                                </div>
+
+                                <div class="package-item">
+                                    <div class="package-icon">👑</div>
+                                    <div class="package-details">
+                                        <div class="package-name">VIP RIDERS PACKAGE</div>
+                                        <div class="package-price">10,000 USDT</div>
+                                        <div class="package-yield">EARN 1.2% PER DAY | Duration: 180 Days</div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill" style="width: 60%;"></div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-gold" onclick="openBuyModal('VIP Riders Package', 10000)">Join Package</button>
+                                </div>
+                            </div>
+
+                            <!-- Bonus Overview Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-chart-line"></i> Bonus Overview</span>
+                                    <button class="btn-outline-gold" style="padding: 4px 8px; font-size: 11px;" onclick="switchTab('bonuses')">Details</button>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-user-plus text-gold"></i> Direct Referral Bonus</span>
+                                    <strong class="text-gold" id="bonus-direct-val">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-sitemap text-gold"></i> Unilevel Bonus</span>
+                                    <strong id="bonus-unilevel-val">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-trophy text-gold"></i> Ranking Bonus</span>
+                                    <strong id="bonus-ranking-val">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-calendar-day text-gold"></i> Daily Staking Yield</span>
+                                    <strong id="bonus-daily-val">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-horse text-gold"></i> NFT Horse Rewards</span>
+                                    <strong id="bonus-nft-val">$0.00 USDT</strong>
+                                </div>
+                            </div>
+
+                            <!-- Referral Overview Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-network-wired"></i> Referral Overview</span>
+                                    <button class="btn-outline-gold" style="padding: 4px 8px; font-size: 11px;" onclick="switchTab('referrals')">Team Tree</button>
+                                </div>
+                                <div class="copy-box">
+                                    <span id="dash-ref-link-box">Connect wallet to generate referral link</span>
+                                    <button class="copy-btn" onclick="copyText(state.userProfile.referralLink)"><i class="fa-regular fa-copy"></i></button>
+                                </div>
+                                <div class="qr-code-box">
+                                    <img id="dash-ref-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://metafastest.io/dapp" alt="QR Code">
+                                </div>
+                                <div class="referral-stats-list">
+                                    <div class="ref-stat-row">
+                                        <span>Direct Referrals</span>
+                                        <strong id="dash-ref-direct">0 Members</strong>
+                                    </div>
+                                    <div class="ref-stat-row">
+                                        <span>Total Team</span>
+                                        <strong id="dash-ref-team">0 Members</strong>
+                                    </div>
+                                    <div class="ref-stat-row">
+                                        <span>Team Volume</span>
+                                        <strong id="dash-ref-volume">$0.00 USDT</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- COLUMN 3: RIGHT -->
+                        <div class="grid-col-right">
+                            <!-- Account Status & Wallet Balance Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-wallet"></i> Wallet Balance</span>
+                                </div>
+                                <div class="balance-display-main">
+                                    <div class="balance-label">Available Balance</div>
+                                    <div class="balance-value-big" id="dash-avail-balance">$0.00 USDT</div>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span>Unclaimed Rewards</span>
+                                    <strong id="dash-unclaimed" style="color: var(--accent-green);">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span>Total Earnings</span>
+                                    <strong id="dash-total-earnings">$0.00 USDT</strong>
+                                </div>
+
+                                <div class="wallet-actions-grid">
+                                    <button class="btn-outline-gold" onclick="openDepositModal()"><i class="fa-solid fa-arrow-down-long"></i> Deposit</button>
+                                    <button class="btn-outline-gold" onclick="openWithdrawModal()"><i class="fa-solid fa-arrow-up-long"></i> Withdraw</button>
+                                </div>
+
+                                <button class="btn-claim-big" onclick="claimRewards()">
+                                    <i class="fa-solid fa-gift"></i> Claim Rewards
+                                </button>
+                            </div>
+
+                            <!-- Breakdown by Source Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-pie-chart"></i> Breakdown By Source</span>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-bullseye"></i> Direct Bonus</span>
+                                    <strong id="src-direct-val">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-network-wired"></i> Unilevel Bonus</span>
+                                    <strong id="src-unilevel-val">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-star"></i> Daily Yield</span>
+                                    <strong id="src-daily-val">$0.00 USDT</strong>
+                                </div>
+                                <div class="wallet-sub-row">
+                                    <span><i class="fa-solid fa-crown"></i> Ranking Bonus</span>
+                                    <strong id="src-ranking-val">$0.00 USDT</strong>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions 6-Grid Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title"><i class="fa-solid fa-bolt"></i> Quick Actions</span>
+                                </div>
+                                <div class="quick-actions-grid">
+                                    <button class="quick-action-btn" onclick="switchTab('packages')">
+                                         <i class="fa-solid fa-shopping-bag"></i>
+                                        <span>Buy Package</span>
+                                    </button>
+                                    <button class="quick-action-btn" onclick="openDepositModal()">
+                                        <i class="fa-solid fa-arrow-down-long"></i>
+                                        <span>Deposit</span>
+                                    </button>
+                                    <button class="quick-action-btn" onclick="openWithdrawModal()">
+                                        <i class="fa-solid fa-arrow-up-long"></i>
+                                        <span>Withdraw</span>
+                                    </button>
+                                    <button class="quick-action-btn" onclick="switchTab('referrals')">
+                                        <i class="fa-solid fa-users-gear"></i>
+                                        <span>My Team</span>
+                                    </button>
+                                    <button class="quick-action-btn" onclick="switchTab('nft-horses')">
+                                        <i class="fa-solid fa-horse-head"></i>
+                                        <span>NFT Market</span>
+                                    </button>
+                                    <button class="quick-action-btn" onclick="openSwapModal()">
+                                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                        <span>Swap MHR</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 2: MY PROFILE & KYC VIEW
+                     ========================================================== -->
+                <section id="view-profile" class="tab-view" style="display: none;">
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-user-gear"></i> Profile & Account Settings</span>
+                            <span id="profile-kyc-badge" class="badge-pill badge-warning">Unverified</span>
+                        </div>
+                        <div class="profile-form-grid">
+                            <div class="form-group">
+                                <label>Full Legal Name</label>
+                                <input type="text" id="edit-fullname" class="form-control" placeholder="Enter full legal name">
+                            </div>
+                            <div class="form-group">
+                                <label>Rider Nickname</label>
+                                <input type="text" id="edit-nickname" class="form-control" placeholder="Enter rider nickname">
+                            </div>
+                            <div class="form-group">
+                                <label>Registered Email</label>
+                                <input type="email" id="edit-email" class="form-control" placeholder="Enter registered email address">
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Phone Number</label>
+                                <input type="text" id="edit-phone" class="form-control" placeholder="Enter contact phone number">
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input type="text" id="edit-birthday" class="form-control" placeholder="YYYY-MM-DD">
+                            </div>
+                            <div class="form-group">
+                                <label>Direct Upline Sponsor</label>
+                                <input type="text" id="edit-sponsor" class="form-control" value="0x0000...0000 (Direct Platform)" readonly style="opacity: 0.7;">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 12px;">
+                            <button class="btn-gold" onclick="saveUserProfile()"><i class="fa-solid fa-floppy-disk"></i> Save Profile</button>
+                            <button class="btn-outline-gold" onclick="document.getElementById('modal-kyc').classList.add('active')"><i class="fa-solid fa-id-badge"></i> Update KYC</button>
+                            <button class="btn-outline-gold" style="color: var(--accent-orange); border-color: var(--accent-orange);" onclick="resetAppToDefaults()"><i class="fa-solid fa-rotate-left"></i> Reset App State</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 3: PACKAGES CATALOG & ACTIVE SUBSCRIPTIONS
+                     ========================================================== -->
+                <section id="view-packages" class="tab-view" style="display: none;">
+                    <div class="card" style="margin-bottom: 24px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-cubes"></i> Active Package Subscriptions</span>
+                        </div>
+                        <div id="my-active-packages-list"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-box-open"></i> Full Investment Packages Catalog</span>
+                            <span class="badge-pill badge-gold"><i class="fa-solid fa-lock"></i> 180-Day Automated Payouts</span>
+                        </div>
+                        <div class="packages-catalog-grid" id="packages-catalog-container">
+                            <!-- Package 1: Starter -->
+                            <div class="package-catalog-card">
+                                <div>
+                                    <div style="font-size: 32px; margin-bottom: 8px;">🌱</div>
+                                    <div class="pkg-header-title">Starter Package</div>
+                                    <div class="pkg-header-price">100 USDT</div>
+                                    <div style="font-size: 13px; color: var(--accent-green); font-weight: 700;">
+                                        <i class="fa-solid fa-bolt"></i> Earn 0.8% Daily (0.80 USDT/day)
+                                    </div>
+                                    <div class="pkg-feature-list">
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 180 Days Contract Lock</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Total ROI: 144% (144 USDT)</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 10% Direct Referral Commission</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Tier 1 Unilevel Tree Access</div>
+                                    </div>
+                                </div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="openBuyModal('Starter Package', 100)">
+                                    <i class="fa-solid fa-shield-halved"></i> Join Package
+                                </button>
+                            </div>
+
+                            <!-- Package 2: Explorer -->
+                            <div class="package-catalog-card">
+                                <div>
+                                    <div style="font-size: 32px; margin-bottom: 8px;">🧭</div>
+                                    <div class="pkg-header-title">Explorer Package</div>
+                                    <div class="pkg-header-price">500 USDT</div>
+                                    <div style="font-size: 13px; color: var(--accent-green); font-weight: 700;">
+                                        <i class="fa-solid fa-bolt"></i> Earn 0.85% Daily (4.25 USDT/day)
+                                    </div>
+                                    <div class="pkg-feature-list">
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 180 Days Contract Lock</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Total ROI: 153% (765 USDT)</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 10% Direct Referral Commission</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Tier 2 Unilevel Tree Access</div>
+                                    </div>
+                                </div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="openBuyModal('Explorer Package', 500)">
+                                    <i class="fa-solid fa-shield-halved"></i> Join Package
+                                </button>
+                            </div>
+
+                            <!-- Package 3: Premium (Popular) -->
+                            <div class="package-catalog-card featured">
+                                <div>
+                                    <span class="badge-pill badge-gold pkg-header-badge"><i class="fa-solid fa-fire"></i> Most Popular</span>
+                                    <div style="font-size: 32px; margin-bottom: 8px;">🐎</div>
+                                    <div class="pkg-header-title">Premium Package</div>
+                                    <div class="pkg-header-price">1,000 USDT</div>
+                                    <div style="font-size: 13px; color: var(--accent-green); font-weight: 700;">
+                                        <i class="fa-solid fa-bolt"></i> Earn 0.9% Daily (9.00 USDT/day)
+                                    </div>
+                                    <div class="pkg-feature-list">
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 180 Days Contract Lock</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Total ROI: 162% (1,620 USDT)</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 10% Direct Referral Commission</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 5-Level Deep Unilevel Network Access</div>
+                                    </div>
+                                </div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="openBuyModal('Premium Package', 1000)">
+                                    <i class="fa-solid fa-shield-halved"></i> Join Package
+                                </button>
+                            </div>
+
+                            <!-- Package 4: Riders Package -->
+                            <div class="package-catalog-card">
+                                <div>
+                                    <div style="font-size: 32px; margin-bottom: 8px;">⚡</div>
+                                    <div class="pkg-header-title">Riders Package</div>
+                                    <div class="pkg-header-price">5,000 USDT</div>
+                                    <div style="font-size: 13px; color: var(--accent-green); font-weight: 700;">
+                                        <i class="fa-solid fa-bolt"></i> Earn 1.1% Daily (55.00 USDT/day)
+                                    </div>
+                                    <div class="pkg-feature-list">
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 180 Days Contract Lock</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Total ROI: 198% (9,900 USDT)</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 10% Direct Referral Commission</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Grand Master Leadership Pool</div>
+                                    </div>
+                                </div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="openBuyModal('Riders Package', 5000)">
+                                    <i class="fa-solid fa-shield-halved"></i> Join Package
+                                </button>
+                            </div>
+
+                            <!-- Package 5: VIP Riders Package -->
+                            <div class="package-catalog-card featured">
+                                <div>
+                                    <span class="badge-pill badge-gold pkg-header-badge"><i class="fa-solid fa-crown"></i> High Yield</span>
+                                    <div style="font-size: 32px; margin-bottom: 8px;">👑</div>
+                                    <div class="pkg-header-title">VIP Riders Package</div>
+                                    <div class="pkg-header-price">10,000 USDT</div>
+                                    <div style="font-size: 13px; color: var(--accent-green); font-weight: 700;">
+                                        <i class="fa-solid fa-bolt"></i> Earn 1.2% Daily (120.00 USDT/day)
+                                    </div>
+                                    <div class="pkg-feature-list">
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 180 Days Contract Lock</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Total ROI: 216% (21,600 USDT)</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 10% Direct Referral Commission</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Royal Rider Global Pool Dividends</div>
+                                    </div>
+                                </div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="openBuyModal('VIP Riders Package', 10000)">
+                                    <i class="fa-solid fa-shield-halved"></i> Join Package
+                                </button>
+                            </div>
+
+                            <!-- Package 6: Legendary Founder -->
+                            <div class="package-catalog-card">
+                                <div>
+                                    <div style="font-size: 32px; margin-bottom: 8px;">🏆</div>
+                                    <div class="pkg-header-title">Legendary Founder</div>
+                                    <div class="pkg-header-price">25,000 USDT</div>
+                                    <div style="font-size: 13px; color: var(--accent-green); font-weight: 700;">
+                                        <i class="fa-solid fa-bolt"></i> Earn 1.5% Daily (375.00 USDT/day)
+                                    </div>
+                                    <div class="pkg-feature-list">
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 180 Days Contract Lock</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Total ROI: 270% (67,500 USDT)</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> 10% Direct Referral Commission</div>
+                                        <div class="pkg-feature-item"><i class="fa-solid fa-check"></i> Metafastest Legend Lifetime Shares</div>
+                                    </div>
+                                </div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="openBuyModal('Legendary Founder', 25000)">
+                                    <i class="fa-solid fa-shield-halved"></i> Join Package
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 4: NFT HORSE MINTING & REVENUE SYSTEM
+                     ========================================================== -->
+                <section id="view-nft-horses" class="tab-view" style="display: none;">
+                    <div class="card" style="margin-bottom: 24px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-warehouse"></i> My NFT Horse Stables</span>
+                        </div>
+                        <div class="stables-grid" id="my-stables-container"></div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-horse-head"></i> Metafastest NFT Horse Marketplace</span>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                            Mint your official NFT Race Horse to generate daily MHR tokens and unlock entry to Metafastest Cyber-Derby Racing Tournaments.
+                        </p>
+                    </div>
+
+                    <div class="nft-horses-grid">
+                        <div class="nft-card">
+                            <span class="nft-badge">Common Tier</span>
+                            <img src="assets/nft-cyber-stallion.jpg?v=20260831_5d" alt="5D Photoreal Common Horse - Cyber Stallion" class="nft-card-img">
+                            <div class="nft-card-body">
+                                <div class="nft-title">🐎 Cyber Stallion</div>
+                                <div class="nft-price-tag">100 USDT</div>
+                                <div class="nft-yield-tag"><i class="fa-solid fa-bolt"></i> Daily Yield: 10 MFHRC Tokens</div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="mintNFTHorse('Common', 100, 10)">Mint Common Horse</button>
+                            </div>
+                        </div>
+
+                        <div class="nft-card">
+                            <span class="nft-badge">Rare Tier</span>
+                            <img src="assets/nft-solar-stallion.jpg?v=20260831_5d" alt="5D Photoreal Rare Horse - Solar Stallion" class="nft-card-img">
+                            <div class="nft-card-body">
+                                <div class="nft-title">🐎 Solar Stallion</div>
+                                <div class="nft-price-tag">200 USDT</div>
+                                <div class="nft-yield-tag"><i class="fa-solid fa-bolt"></i> Daily Yield: 20 MFHRC Tokens</div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="mintNFTHorse('Rare', 200, 20)">Mint Rare Horse</button>
+                            </div>
+                        </div>
+
+                        <div class="nft-card">
+                            <span class="nft-badge">Epic Tier</span>
+                            <img src="assets/nft-valkyrie-storm.jpg?v=20260831_5d" alt="5D Photoreal Epic Horse - Valkyrie Storm" class="nft-card-img">
+                            <div class="nft-card-body">
+                                <div class="nft-title">🐎 Valkyrie Storm</div>
+                                <div class="nft-price-tag">380 USDT</div>
+                                <div class="nft-yield-tag"><i class="fa-solid fa-bolt"></i> Daily Yield: 40 MFHRC Tokens</div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="mintNFTHorse('Epic', 380, 40)">Mint Epic Horse</button>
+                            </div>
+                        </div>
+
+                        <div class="nft-card">
+                            <span class="nft-badge" style="border-color: #ffd700; background: rgba(255, 215, 0, 0.2);">Legendary Tier</span>
+                            <img src="assets/nft-god-of-speed.jpg?v=20260831_5d" alt="5D Photoreal Legendary Horse - God of Speed" class="nft-card-img">
+                            <div class="nft-card-body">
+                                <div class="nft-title">👑 God of Speed</div>
+                                <div class="nft-price-tag">600 USDT</div>
+                                <div class="nft-yield-tag"><i class="fa-solid fa-bolt"></i> Daily Yield: 100 MFHRC Tokens</div>
+                                <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="mintNFTHorse('Legendary', 600, 100)">Mint Legendary Horse</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Distribution Chart & Breakdown -->
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-chart-pie"></i> NFT Horse Revenue Distribution Model (100% Allocation)</span>
+                        </div>
+                        <div class="revenue-breakdown-box">
+                            <div class="rev-item">
+                                <div class="rev-percent">20%</div>
+                                <div class="rev-label">Token Liquidity Pool</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent">40%</div>
+                                <div class="rev-label">NFT Horse Owner</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent">8%</div>
+                                <div class="rev-label">Leadership Fund</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent">10%</div>
+                                <div class="rev-label">Direct Sponsor</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent">12%</div>
+                                <div class="rev-label">Unilevel Bonus</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent">10%</div>
+                                <div class="rev-label">Administration</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 5: WALLET & CLAIMS VIEW
+                     ========================================================== -->
+                <section id="view-wallet" class="tab-view" style="display: none;">
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-vault"></i> Metafastest Secure Wallet Ledger</span>
+                            <span class="badge-pill badge-gold" id="wallet-view-conn-status"><i class="fa-solid fa-circle-check"></i> Connected</span>
+                        </div>
+                        <div class="wallet-sub-row">
+                            <span>Network & Chain</span>
+                            <strong style="color: var(--accent-green);" id="wallet-view-network">BNB Smart Chain (Chain ID 56)</strong>
+                        </div>
+                        <div class="wallet-sub-row">
+                            <span>Wallet Address</span>
+                            <code id="wallet-view-address">Not Connected</code>
+                        </div>
+                        <div class="wallet-sub-row">
+                            <span>USDT Balance</span>
+                            <strong id="wallet-view-usdt">$0.00 USDT</strong>
+                        </div>
+                        <div class="wallet-sub-row">
+                            <span>MFHRC Token Balance</span>
+                            <strong id="wallet-view-mhr" style="color: var(--gold-primary);">0.00 MFHRC</strong>
+                        </div>
+                        <div class="wallet-sub-row">
+                            <span>Unclaimed Staking Rewards</span>
+                            <strong id="wallet-page-unclaimed" style="color: var(--accent-green);">$0.00 USDT</strong>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+                            <button class="btn-gold" onclick="openDepositModal()"><i class="fa-solid fa-arrow-down-long"></i> Deposit USDT</button>
+                            <button class="btn-outline-gold" onclick="openWithdrawModal()"><i class="fa-solid fa-arrow-up-long"></i> Withdraw USDT</button>
+                            <button class="btn-outline-gold" onclick="claimRewards()"><i class="fa-solid fa-gift"></i> Claim Rewards</button>
+                            <button class="btn-outline-gold" onclick="openSwapModal()"><i class="fa-solid fa-arrow-right-arrow-left"></i> Swap MFHRC</button>
+                            <button class="btn-outline-gold" onclick="addTokenToMetaMask()"><i class="fa-solid fa-plus"></i> Add MFHRC to MetaMask</button>
+                        </div>
+                    </div>
+
+                    <!-- Official Club Token Infographic Card -->
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-circle-info"></i> Metafastest Horse Riders Club (MFHRC) Official Token Specs</span>
+                            <span class="badge-pill badge-gold"><i class="fa-solid fa-shield-halved"></i> BEP-20 Verified</span>
+                        </div>
+                        <img src="assets/mfhrc-token-info.jpg?v=3" alt="MFHRC Token Specifications" style="width: 100%; border-radius: var(--radius-md); border: 1px solid var(--border-gold); margin-top: 8px;">
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 6: BONUSES DETAILED VIEW
+                     ========================================================== -->
+                <section id="view-bonuses" class="tab-view" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-gift"></i> Comprehensive Bonus Streams</span>
+                            <button class="btn-gold" style="padding: 6px 14px; font-size: 12px;" onclick="claimRewards()">Claim All</button>
+                        </div>
+                        <div class="revenue-breakdown-box">
+                            <div class="rev-item">
+                                <div class="rev-percent" id="page-bonus-direct">$0.00</div>
+                                <div class="rev-label">10% Direct Referral Commission</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent" id="page-bonus-unilevel">$0.00</div>
+                                <div class="rev-label">5-Tier Unilevel Commission</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent" id="page-bonus-ranking">$0.00</div>
+                                <div class="rev-label">Rider Ranking Pool</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent" id="page-bonus-daily">$0.00</div>
+                                <div class="rev-label">Daily Staking Yield</div>
+                            </div>
+                            <div class="rev-item">
+                                <div class="rev-percent" id="page-bonus-nft">$0.00</div>
+                                <div class="rev-label">NFT Horse Race Rewards</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 7: RANKINGS & LEADERBOARD
+                     ========================================================== -->
+                <section id="view-rankings" class="tab-view" style="display: none;">
+                    <div class="card" style="margin-bottom: 24px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-trophy"></i> Rider Progression & Rank Perks</span>
+                        </div>
+                        <div class="ranking-track" id="main-ranking-track">
+                            <div class="ranking-step current" id="track-step-0">
+                                <div class="ranking-step-circle">🔰</div>
+                                <div class="ranking-step-label">New Rider</div>
+                            </div>
+                            <div class="ranking-step" id="track-step-1">
+                                <div class="ranking-step-circle">🥉</div>
+                                <div class="ranking-step-label">Knight</div>
+                            </div>
+                            <div class="ranking-step" id="track-step-2">
+                                <div class="ranking-step-circle">🥈</div>
+                                <div class="ranking-step-label">Earl</div>
+                            </div>
+                            <div class="ranking-step" id="track-step-3">
+                                <div class="ranking-step-circle">🥇</div>
+                                <div class="ranking-step-label">Grand Master</div>
+                            </div>
+                            <div class="ranking-step" id="track-step-4">
+                                <div class="ranking-step-circle">💎</div>
+                                <div class="ranking-step-label">Royal Rider</div>
+                            </div>
+                            <div class="ranking-step" id="track-step-5">
+                                <div class="ranking-step-circle">👑</div>
+                                <div class="ranking-step-label">Legend</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 8: REFERRALS UNILEVEL TREE VIEW
+                     ========================================================== -->
+                <section id="view-referrals" class="tab-view" style="display: none;">
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-sitemap"></i> Unilevel Team Structure</span>
+                            <button class="btn-outline-gold" onclick="copyText(state.userProfile.referralLink)"><i class="fa-regular fa-copy"></i> Copy Ref Link</button>
+                        </div>
+                        <div class="admin-metrics-grid">
+                            <div class="admin-metric-card">
+                                <div class="admin-metric-title">Direct Referrals</div>
+                                <div class="admin-metric-value" id="ref-direct-count">0 Members</div>
+                            </div>
+                            <div class="admin-metric-card">
+                                <div class="admin-metric-title">Total Team Network</div>
+                                <div class="admin-metric-value" id="ref-team-count">0 Members</div>
+                            </div>
+                            <div class="admin-metric-card">
+                                <div class="admin-metric-title">Team Trading Volume</div>
+                                <div class="admin-metric-value" id="ref-team-volume">$0.00 USDT</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-users"></i> Direct Team Members</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Member Name</th>
+                                        <th>Wallet Address</th>
+                                        <th>Package Tier</th>
+                                        <th>Personal Volume</th>
+                                        <th>Commission Earned</th>
+                                        <th>Status</th>
+                                        <th>Join Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="referrals-direct-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 9: TRANSACTIONS HISTORY LEDGER
+                     ========================================================== -->
+                <section id="view-transactions" class="tab-view" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-receipt"></i> Transaction History Ledger</span>
+                            <span class="badge-pill badge-gold"><i class="fa-solid fa-cubes"></i> On-Chain Verified</span>
+                        </div>
+                        <div class="sub-tabs-bar">
+                            <button class="sub-tab-btn active" onclick="renderTransactionsView('all')">All Transactions</button>
+                            <button class="sub-tab-btn" onclick="renderTransactionsView('deposit')">Deposits</button>
+                            <button class="sub-tab-btn" onclick="renderTransactionsView('withdraw')">Withdrawals</button>
+                            <button class="sub-tab-btn" onclick="renderTransactionsView('package')">Packages</button>
+                            <button class="sub-tab-btn" onclick="renderTransactionsView('nft mint')">NFT Mints</button>
+                            <button class="sub-tab-btn" onclick="renderTransactionsView('claim')">Reward Claims</button>
+                            <button class="sub-tab-btn" onclick="renderTransactionsView('swap')">Swaps</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tx ID</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>BSC Tx Hash</th>
+                                        <th>Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactions-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                     VIEW 10: ADMIN CONSOLE VIEW
+                     ========================================================== -->
+                <section id="view-admin" class="tab-view" style="display: none;">
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-user-shield"></i> Metafastest Admin Console</span>
+                            <span class="badge-pill badge-gold"><i class="fa-solid fa-lock"></i> Master Authority</span>
+                        </div>
+                        <div class="admin-metrics-grid">
+                            <div class="admin-metric-card">
+                                <div class="admin-metric-title">Total Protocol TVL</div>
+                                <div class="admin-metric-value" id="admin-total-tvl">$0.00 USDT</div>
+                            </div>
+                            <div class="admin-metric-card">
+                                <div class="admin-metric-title">Active Platform Riders</div>
+                                <div class="admin-metric-value" id="admin-active-riders">0</div>
+                            </div>
+                            <div class="admin-metric-card">
+                                <div class="admin-metric-title">Total Minted MHR</div>
+                                <div class="admin-metric-value" id="admin-total-mhr">0 MHR</div>
+                            </div>
+                            <div class="admin-metric-card">
+                                <div class="admin-metric-title">Reserve Vault (USDT)</div>
+                                <div class="admin-metric-value" id="admin-reserve-vault">$0.00 USDT</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Withdrawal Approval Queue</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Request ID</th>
+                                        <th>User Wallet</th>
+                                        <th>Amount</th>
+                                        <th>Requested</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-withdraw-requests-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==========================================================
+         MODALS: DEPOSIT, WITHDRAW, BUY, SWAP, KYC
+         ========================================================== -->
+
+    <!-- MODAL 1: DEPOSIT MODAL -->
+    <div class="modal-overlay" id="modal-deposit">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-deposit')"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); color: var(--gold-primary); margin-bottom: 16px;">Deposit USDT (BEP-20)</h3>
+            <div class="form-group">
+                <label>Deposit Amount (USDT)</label>
+                <input type="number" id="input-deposit-amount" class="form-control" placeholder="Enter amount (min 10 USDT)" value="">
+            </div>
+            <div class="form-group">
+                <label>Official Treasury & Staking Deposit Vault</label>
+                <div class="copy-box">
+                    <span>0xd537F93d056364CDE3De6692F48e853d14b0943c</span>
+                    <button class="copy-btn" onclick="copyText('0xd537F93d056364CDE3De6692F48e853d14b0943c')"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+            <button class="btn-gold" style="width: 100%; margin-top: 10px; justify-content: center;" onclick="confirmDeposit()">Confirm Web3 Deposit</button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: WITHDRAW MODAL -->
+    <div class="modal-overlay" id="modal-withdraw">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-withdraw')"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); color: var(--gold-primary); margin-bottom: 8px;">Withdraw USDT</h3>
+            <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 16px;" id="withdraw-avail-note">Available: $0.00 USDT</p>
+            <div class="form-group">
+                <label>Withdrawal Amount (USDT)</label>
+                <input type="number" id="input-withdraw-amount" class="form-control" placeholder="Enter USDT amount" value="">
+            </div>
+            <div class="form-group">
+                <label>Recipient BEP-20 Wallet Address</label>
+                <input type="text" id="input-withdraw-address" class="form-control" placeholder="0x... (BEP-20 Address)" value="">
+            </div>
+            <button class="btn-gold" style="width: 100%; margin-top: 10px; justify-content: center;" onclick="confirmWithdrawal()">Execute Withdrawal</button>
+        </div>
+    </div>
+
+    <!-- MODAL 3: BUY PACKAGE MODAL -->
+    <div class="modal-overlay" id="modal-buy-pkg">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-buy-pkg')"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); color: var(--gold-primary); margin-bottom: 12px;" id="buy-pkg-title">Join Investment Package</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 13px;" id="buy-pkg-desc">Confirm package purchase with connected wallet.</p>
+            <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="confirmPackagePurchase()">Confirm Package Purchase</button>
+        </div>
+    </div>
+
+    <!-- MODAL 4: TOKEN SWAP MODAL -->
+    <div class="modal-overlay" id="modal-swap">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-swap')"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); color: var(--gold-primary); margin-bottom: 16px;">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i> Web3 Token Swap
+            </h3>
+            
+            <div class="swap-input-container">
+                <div class="swap-input-header">
+                    <span>You Pay</span>
+                    <span>Balance: <strong id="swap-from-bal">0.00</strong></span>
+                </div>
+                <div class="swap-input-row">
+                    <input type="number" id="swap-from-amount" class="swap-amount-input" placeholder="0.00" value="" oninput="updateSwapQuote()">
+                    <div class="swap-token-select" id="swap-from-token">MFHRC</div>
+                </div>
+            </div>
+
+            <button class="swap-divider-btn" onclick="switchSwapDirection()"><i class="fa-solid fa-arrow-down-up-across-line"></i></button>
+
+            <div class="swap-input-container">
+                <div class="swap-input-header">
+                    <span>You Receive (Estimated)</span>
+                </div>
+                <div class="swap-input-row">
+                    <input type="text" id="swap-to-amount" class="swap-amount-input" readonly placeholder="0.00" value="">
+                    <div class="swap-token-select" id="swap-to-token">USDT</div>
+                </div>
+            </div>
+
+            <p style="font-size: 11px; color: var(--text-muted); margin: 8px 0 16px;" id="swap-rate-text">1 MFHRC = $0.185 USDT (0.3% LP Fee)</p>
+            <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="executeSwap()">Execute Web3 Swap</button>
+        </div>
+    </div>
+
+    <!-- MODAL 5: KYC SUBMISSION MODAL -->
+    <div class="modal-overlay" id="modal-kyc">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-kyc')"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); color: var(--gold-primary); margin-bottom: 12px;">
+                <i class="fa-solid fa-id-card"></i> KYC Verification
+            </h3>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">
+                Submit government-issued photo ID to unlock unlimited daily withdrawals and Tier-5 leadership bonuses.
+            </p>
+            <div class="form-group">
+                <label>ID Document Type</label>
+                <select class="form-control" style="background: rgba(0,0,0,0.6); color: #fff;">
+                    <option>Passport / International Travel ID</option>
+                    <option>Driver's License</option>
+                    <option>National Identity Card</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Document ID Number</label>
+                <input type="text" class="form-control" placeholder="Enter Government ID Number" value="">
+            </div>
+            <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="submitKYCVerification()">Submit & Verify Identity</button>
+        </div>
+    </div>
+
+    <!-- MODAL 6: LANDING SPONSOR INPUT MODAL -->
+    <div class="modal-overlay" id="modal-landing-sponsor">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-landing-sponsor')"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); color: var(--gold-primary); margin-bottom: 12px;">
+                <i class="fa-solid fa-user-plus"></i> Set Sponsor Referral Code
+            </h3>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">
+                Enter your inviter's referral code to register under their racing stable syndicate.
+            </p>
+            <div class="form-group">
+                <label>Sponsor Referral Code / Wallet Address</label>
+                <input type="text" id="landing-modal-sponsor-input" class="form-control" placeholder="e.g. MHR92A1 or 0x..." style="background: rgba(0,0,0,0.6); color: var(--gold-light); font-family: monospace;">
+            </div>
+            <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="saveLandingSponsor()">
+                Save Sponsor & Connect Wallet
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js?v=20260831_landing"></script>
+</body>
+</html>
+
