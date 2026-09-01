@@ -1,0 +1,16 @@
+{
+  "name": "metafastest-dapp",
+  "version": "2.0.0",
+  "description": "Metafastest Riders Club - Web3 Decentralized Platform with Cloud State Sync and Real-Time Price Oracle",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

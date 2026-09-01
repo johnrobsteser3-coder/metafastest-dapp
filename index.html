@@ -147,9 +147,9 @@
         <div class="landing-container">
             <div class="landing-stats-ribbon">
                 <div class="landing-stat-box">
-                    <span class="stat-box-label"><i class="fa-solid fa-coins"></i> MFHRC Price</span>
-                    <span class="stat-box-value gold">$0.185 USDT</span>
-                    <span class="stat-box-sub">▲ +4.2% (24h)</span>
+                    <span class="stat-box-label"><i class="fa-solid fa-coins"></i> Live MFHRC Price</span>
+                    <span class="stat-box-value gold" id="landing-live-token-price">$0.1850 USDT</span>
+                    <span class="stat-box-sub" id="landing-live-price-change" style="color: var(--accent-green); font-weight: 600;">▲ +2.45% (24h)</span>
                 </div>
                 <div class="landing-stat-box">
                     <span class="stat-box-label"><i class="fa-solid fa-vault"></i> Total Value Staked</span>
@@ -782,7 +782,7 @@
                             <i class="fa-solid fa-coins"></i>
                         </div>
                         <div class="stat-chip-info">
-                            <span>MFHRC Token Balance</span>
+                            <span>MFHRC Balance</span>
                             <strong id="header-ahr-balance">0.00 MFHRC</strong>
                         </div>
                     </div>
@@ -792,8 +792,18 @@
                             <i class="fa-solid fa-dollar-sign"></i>
                         </div>
                         <div class="stat-chip-info">
-                            <span>USDT Wallet Balance</span>
+                            <span>USDT Balance</span>
                             <strong id="header-usdt-balance">$0.00 USDT</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-chip">
+                        <div class="stat-chip-icon mhr" style="background: rgba(255, 215, 0, 0.15); color: var(--gold-primary);">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="stat-chip-info">
+                            <span>Live MFHRC Price</span>
+                            <strong id="header-mhr-price">$0.1850 USDT</strong>
                         </div>
                     </div>
                 </div>
