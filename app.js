@@ -53,7 +53,7 @@ const DEFAULT_STATE = {
     nftCatalog: [
         { id: 'nft-common', name: 'Cyber Stallion', tier: 'Common', price: 100, dailyMhrYield: 10, speed: '72 km/h', stamina: '80/100', winRate: '64%', img: 'assets/nft-cyber-stallion.jpg?v=20260831_5d' },
         { id: 'nft-rare', name: 'Solar Stallion', tier: 'Rare', price: 200, dailyMhrYield: 20, speed: '85 km/h', stamina: '88/100', winRate: '76%', img: 'assets/nft-solar-stallion.jpg?v=20260831_5d' },
-        { id: 'nft-epic', name: 'Valkyrie Storm', tier: 'Epic', price: 380, dailyMhrYield: 40, speed: '94 km/h', stamina: '94/100', winRate: '88%', img: 'assets/nft-valkyrie-storm.jpg?v=20260831_5d' },
+        { id: 'nft-epic', name: 'Valkyrie Storm', tier: 'Epic', price: 400, dailyMhrYield: 40, speed: '94 km/h', stamina: '94/100', winRate: '88%', img: 'assets/nft-valkyrie-storm.jpg?v=20260831_5d' },
         { id: 'nft-legendary', name: 'God of Speed', tier: 'Legendary', price: 600, dailyMhrYield: 100, speed: '110 km/h', stamina: '99/100', winRate: '96%', img: 'assets/nft-god-of-speed.jpg?v=20260831_5d' }
     ],
 
@@ -515,7 +515,22 @@ function initNavigation() {
     });
 }
 
+// Helper to verify if connected wallet is the authorized Platform Treasury Admin
+function isAdminConnected() {
+    if (!state.walletAddress || !state.connected) return false;
+    const treasury = (state.treasuryAddress || '0xd537F93d056364CDE3De6692F48e853d14b0943c').toLowerCase();
+    return state.walletAddress.toLowerCase() === treasury;
+}
+
 function switchTab(tabId) {
+    if (tabId === 'admin') {
+        if (!isAdminConnected()) {
+            showToast('⛔ Access Denied: Admin Console is restricted exclusively to the Platform Treasury Owner wallet.', 'warning');
+            switchTab('dashboard');
+            return;
+        }
+    }
+
     document.querySelectorAll('.nav-menu .nav-item').forEach(el => el.classList.remove('active'));
     const activeNav = document.querySelector(`.nav-menu .nav-item[data-tab="${tabId}"]`);
     if (activeNav) activeNav.classList.add('active');
@@ -1129,6 +1144,20 @@ function updateAllViews() {
 
     const profPhone = document.getElementById('dash-prof-phone');
     if (profPhone) profPhone.textContent = (state.userProfile && state.userProfile.contactNo) ? state.userProfile.contactNo : 'Not Set';
+
+    // 4. Admin Navigation Visibility Enforcement (Treasury Owner Only)
+    const adminNav = document.getElementById('nav-item-admin') || document.querySelector('.nav-menu .nav-item[data-tab="admin"]');
+    if (adminNav) {
+        if (isAdminConnected()) {
+            adminNav.style.display = 'flex';
+        } else {
+            adminNav.style.display = 'none';
+            const adminView = document.getElementById('view-admin');
+            if (adminView && (adminView.style.display === 'block' || adminView.classList.contains('active'))) {
+                switchTab('dashboard');
+            }
+        }
+    }
 
     const profBday = document.getElementById('dash-prof-bday');
     if (profBday) profBday.textContent = (state.userProfile && state.userProfile.birthday) ? state.userProfile.birthday : 'Not Set';

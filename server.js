@@ -168,8 +168,9 @@ app.post('/api/state/:wallet', (req, res) => {
         updatedAt: Date.now()
     };
 
-    // Update global platform metrics
-    if (payload.admin) {
+    // Update global platform metrics (Restricted to Authorized Treasury Owner)
+    const TREASURY_WALLET = '0xd537f93d056364cde3de6692f48e853d14b0943c';
+    if (payload.admin && wallet === TREASURY_WALLET) {
         database.globalStats = {
             ...database.globalStats,
             ...payload.admin
