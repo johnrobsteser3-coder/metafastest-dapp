@@ -97,10 +97,34 @@ const DEFAULT_STATE = {
     }
 };
 
+// Deep Merge helper to safeguard user balances & state during app updates
+function deepMergeState(target, source) {
+    if (!source || typeof source !== 'object') return JSON.parse(JSON.stringify(target));
+    const output = Object.assign({}, target);
+    Object.keys(target).forEach(key => {
+        if (key in source) {
+            if (Array.isArray(target[key])) {
+                // If it's a platform catalog, keep the latest updated definitions
+                if (key === 'packageCatalog' || key === 'nftCatalog') {
+                    output[key] = target[key];
+                } else {
+                    // For user lists (myPackages, myNFTs, transactions, directList, etc.) preserve user data
+                    output[key] = Array.isArray(source[key]) ? source[key] : target[key];
+                }
+            } else if (typeof target[key] === 'object' && target[key] !== null) {
+                output[key] = deepMergeState(target[key], source[key]);
+            } else {
+                output[key] = source[key];
+            }
+        }
+    });
+    return output;
+}
+
 // Global App State Instance (Loaded from localStorage or defaults)
 let state = loadPersistentState();
 
-// Save state helper
+// Save state helper with error protection
 function savePersistentState() {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -110,38 +134,34 @@ function savePersistentState() {
 }
 
 function loadPersistentState() {
-    let s = null;
+    let savedObj = null;
     try {
-        localStorage.removeItem('metafastest_dapp_state');
-        localStorage.removeItem('metafastest_dapp_state_v2');
-
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            s = JSON.parse(saved);
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+            savedObj = JSON.parse(raw);
         }
     } catch (e) {
         console.warn('Could not load from localStorage:', e);
     }
-    if (!s) {
-        s = JSON.parse(JSON.stringify(DEFAULT_STATE));
-    }
 
-    // Ensure catalog is always synchronized
-    if (s.nftCatalog) {
-        s.nftCatalog = DEFAULT_STATE.nftCatalog;
-    }
-    if (s.packageCatalog) {
-        s.packageCatalog = DEFAULT_STATE.packageCatalog;
-    }
+    // Deep merge guarantees all user data is kept while schema updates cleanly
+    const s = deepMergeState(DEFAULT_STATE, savedObj);
 
-    if (typeof s.unclaimedMhrRewards === 'undefined') {
-        s.unclaimedMhrRewards = 0.00;
-    }
+    // Lock verified contract addresses & token constants
     s.contractAddress = '0xbC6AC29404f5E68ed9d4e340E286aAb265Ea6e0c';
     s.treasuryAddress = '0xd537F93d056364CDE3De6692F48e853d14b0943c';
+    s.mhrPriceUsdt = 0.185;
 
     return s;
 }
+
+// Ensure automatic background persistence & beforeunload safety
+window.addEventListener('beforeunload', () => {
+    savePersistentState();
+});
+setInterval(() => {
+    savePersistentState();
+}, 5000);
 
 // Reset data to defaults
 function resetAppToDefaults() {
