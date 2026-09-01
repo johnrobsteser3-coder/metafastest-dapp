@@ -1544,7 +1544,7 @@ function logTransaction(type, title, amount, status = 'Completed') {
         status: status,
         timestamp: dateStr,
         txHash: txHash,
-        explorer: `https://bscscan.com/tx/${txHash.substring(0, 10)}`
+        explorer: `https://bscscan.com/tx/${txHash}`
     });
 
     if (state.transactions.length > 50) state.transactions.pop();
